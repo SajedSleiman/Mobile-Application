@@ -1,33 +1,42 @@
 import 'package:flutter/material.dart';
-import 'Favorite.dart';
-import 'Settings.dart';
-import 'main.dart';
 
 class Chapter1 extends StatefulWidget {
-  const Chapter1({super.key});
+  final String userId;
+  final VoidCallback onCompleted;
+
+  const Chapter1({Key? key, required this.userId, required this.onCompleted})
+      : super(key: key);
 
   @override
   _Chapter1State createState() => _Chapter1State();
 }
 
 class _Chapter1State extends State<Chapter1> {
-  final TextEditingController _controller = TextEditingController();
+  int? _selectedAnswer; // Nullable variable for the selected answer
   String _feedback = "";
 
+  final List<String> _options = [
+    'System.out.print("Hello World");',
+    'Console.WriteLine("Hello World");',
+    'echo "Hello World";',
+    'System.out.println("Hello World");', // Correct answer
+  ];
+
+  final int _correctAnswer = 3; // Correct index for the question
+
   void _checkAnswer() {
-    if (_controller.text.trim() == 'System.out.print("Hello World");') {
-      setState(() {
-        _feedback = "✅ Correct! Great job!";
-      });
-    } else {
-      setState(() {
-        _feedback = "❌ Incorrect. Try again!";
-      });
-    }
+    setState(() {
+      if (_selectedAnswer == _correctAnswer) {
+        _feedback = "✅ Great job! You got it right!";
+        widget.onCompleted(); // Notify parent widget of completion
+      } else {
+        _feedback = "❌ Oops! That's not correct. Try again.";
+      }
+    });
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -45,111 +54,93 @@ class _Chapter1State extends State<Chapter1> {
             const Text(
               'Chapter 1: Introduction to Java',
               style: TextStyle(
-                  fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blue),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Welcome to the exciting world of programming! In this chapter, we will learn about Java, one of the most popular programming languages used by developers around the world. Java is a versatile, platform-independent language that powers many applications, from mobile apps to enterprise systems.',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'What is Java?',
-              style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Java is a programming language and a platform that was created in 1995 by Sun Microsystems (now owned by Oracle). It is known for its "write once, run anywhere" capability, meaning you can write a Java program on one computer and run it on any other computer without needing to modify the code.',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Why Learn Java?',
-              style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              '1. It is easy to learn and use.\n'
-                  '2. Java has a large community of developers.\n'
-                  '3. It is used in a variety of applications, such as Android apps, web servers, and scientific computing.\n'
-                  '4. Java has many libraries and tools that make programming easier.',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Fun Fact:',
-              style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'The name "Java" comes from a type of coffee! The developers were inspired by their love of coffee while working on the language.',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Let\'s Start Coding!',
-              style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'To begin coding in Java, you need to install the Java Development Kit (JDK) on your computer. Once it is installed, you can write your first program!',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Example Program:',
-              style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'public class HelloWorld {\n'
-                  '    public static void main(String[] args) {\n'
-                  '        System.out.println("Hello, World!");\n'
-                  '    }\n'
-                  '}',
-              style: TextStyle(
-                fontSize: 16,
-                fontFamily: 'Courier',
-                backgroundColor: Color.fromARGB(20, 200, 200, 200),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
               ),
             ),
             const SizedBox(height: 16),
             const Text(
-              'This program prints "Hello, World!" to the screen. It is a tradition to start with this program when learning a new programming language.',
+              "Welcome to your first Java lesson! Let's start by learning how to make the computer say something.\n\n"
+                  "**What is a 'Hello World' Program?**\n"
+                  "It's the simplest program in any language. It shows how to display text on the screen.",
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             const Text(
-              'Now lets test your Skills of what you Learned can you continue this Code??',
-                style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height:16),
-            const Text(
-              'public class HelloWorld {\n'
-              'public static void main(String[] args) {\n',
-              style: TextStyle(fontFamily: 'Courier',
-                fontSize: 16,
-              )
-            ),
-            TextField(
-              controller: _controller,
-              decoration: const InputDecoration(
-                hintText: 'Enter Your Answer Here',
+              'Here’s how it looks in Java:',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
             ),
-            const Text(
-              '    }\n'
-                  '}',
-              style: TextStyle(fontFamily: 'Courier',
-                fontSize: 16,
+            const SizedBox(height: 8),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Text(
+                '''public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello World");
+    }
+}''',
+                style: TextStyle(
+                  fontFamily: 'monospace',
+                  fontSize: 16,
+                  color: Colors.black87,
+                ),
               ),
             ),
             const SizedBox(height: 16),
+            const Text(
+              'Explanation:',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              '''- Every Java program starts with a **class**. Here, our class is called `HelloWorld`.
+- The `main` method is where the program begins.
+- `System.out.println` tells the computer to print text on the screen.''',
+              style: TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 16),
+            const Divider(),
+            const SizedBox(height: 16),
+            const Text(
+              'Question:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              "Which of the following is the correct way to print 'Hello World' in Java?",
+              style: TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 16),
+            // Options as radio buttons
+            Column(
+              children: List.generate(
+                _options.length,
+                    (index) => RadioListTile<int>(
+                  title: Text(_options[index]),
+                  value: index,
+                  groupValue: _selectedAnswer,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedAnswer = value;
+                    });
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _checkAnswer,
               child: const Text('Check Answer'),
@@ -158,36 +149,9 @@ class _Chapter1State extends State<Chapter1> {
             Text(
               _feedback,
               style: TextStyle(
-                  fontSize: 18,
-                  color: _feedback.startsWith('✅') ? Colors.green : Colors.red),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.blueAccent,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.home, color: Colors.white),
-              onPressed: () {
-                print("Home button pressed");
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.favorite, color: Colors.white),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Favorite()));
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.settings, color: Colors.white),
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => const Settings()));
-              },
+                fontSize: 18,
+                color: _feedback.startsWith('✅') ? Colors.green : Colors.red,
+              ),
             ),
           ],
         ),

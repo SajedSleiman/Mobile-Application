@@ -5,14 +5,15 @@ import 'main.dart';
 import 'Home.dart';
 
 class Test extends StatefulWidget {
-  const Test({super.key});
+  final String userId; // Add userId as a parameter
+
+  const Test({super.key, required this.userId});
 
   @override
   _TestState createState() => _TestState();
 }
 
 class _TestState extends State<Test> {
-  // List of questions with multiple-choice options and the correct answer
   final List<Map<String, dynamic>> questions = [
     {
       'question': 'What is the output of System.out.println(5 + 3)?',
@@ -86,7 +87,7 @@ class _TestState extends State<Test> {
     },
   ];
 
-  final Map<int, String> userAnswers = {}; // To store selected answers
+  final Map<int, String> userAnswers = {};
   bool showResult = false;
   bool passed = false;
 
@@ -99,7 +100,7 @@ class _TestState extends State<Test> {
           onPressed: () {
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const Home()),
+              MaterialPageRoute(builder: (context) => Home(userId: widget.userId)), // Pass userId here
                   (route) => false,
             );
           },
@@ -162,7 +163,6 @@ class _TestState extends State<Test> {
             if (showResult && passed)
               ElevatedButton(
                 onPressed: () {
-                  // Handle certificate claiming logic here
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Certificate Claimed!')),
                   );
@@ -209,7 +209,7 @@ class _TestState extends State<Test> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Home()),
+                  MaterialPageRoute(builder: (context) => Home(userId: widget.userId)), // Pass userId here
                 );
               },
             ),
@@ -218,7 +218,7 @@ class _TestState extends State<Test> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Favorite()),
+                  MaterialPageRoute(builder: (context) => Favorite(userId: widget.userId)), // Pass userId here
                 );
               },
             ),
@@ -227,7 +227,7 @@ class _TestState extends State<Test> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Settings()),
+                  MaterialPageRoute(builder: (context) => Settings(userId: widget.userId)), // Pass userId here
                 );
               },
             ),

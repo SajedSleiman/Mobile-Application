@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'Settings.dart';
-import 'main.dart';
 import 'Home.dart';
+
 class Favorite extends StatelessWidget {
-  const Favorite({super.key});
+  final String userId; // Add the userId parameter
+  const Favorite({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class Favorite extends StatelessWidget {
           onPressed: () {
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const Home()),
+              MaterialPageRoute(builder: (context) => Home(userId: userId)), // Pass userId here
                   (route) => false,
             );
           },
@@ -37,24 +38,26 @@ class Favorite extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.home, color: Colors.white),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Home())
+                // Make sure userId is available to pass to Home
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => Home(userId: userId)),
+                      (route) => false, // Clears previous routes
                 );
               },
             ),
             IconButton(
               icon: const Icon(Icons.favorite, color: Colors.white),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Home())
-                );
+                // No need to navigate to Favorite screen again
               },
             ),
             IconButton(
               icon: const Icon(Icons.settings, color: Colors.white),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Settings())
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Settings(userId: userId)),
                 );
               },
             ),

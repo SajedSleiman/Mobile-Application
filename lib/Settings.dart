@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:project1/Favorite.dart';
-import 'package:project1/main.dart';
+import 'Favorite.dart';
+import 'main.dart';
 import 'Home.dart';
 
 class Settings extends StatelessWidget {
-  const Settings({super.key});
+  final String userId; // Add the userId parameter
+  const Settings({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class Settings extends StatelessWidget {
           onPressed: () {
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const Home()),
+              MaterialPageRoute(builder: (context) => Home(userId: userId)), // Pass userId here
                   (route) => false,
             );
           },
@@ -67,8 +68,9 @@ class Settings extends StatelessWidget {
               leading: const Icon(Icons.logout, color: Colors.blue),
               title: const Text('Log Out'),
               onTap: () {
-                Navigator.push(context, 
-                MaterialPageRoute(builder: (context) =>const MyApp())
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyApp()),
                 );
               },
             ),
@@ -83,9 +85,10 @@ class Settings extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.home, color: Colors.white),
               onPressed: () {
-                Navigator.push(
+                Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => const Home()),
+                  MaterialPageRoute(builder: (context) => Home(userId: userId)), // Pass userId here
+                      (route) => false, // Clears previous routes
                 );
               },
             ),
@@ -94,17 +97,14 @@ class Settings extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Favorite()),
+                  MaterialPageRoute(builder: (context) => Favorite(userId: userId)), // Pass userId here
                 );
               },
             ),
             IconButton(
               icon: const Icon(Icons.settings, color: Colors.white),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Settings()),
-                );
+                // No need to navigate to Settings again
               },
             ),
           ],
